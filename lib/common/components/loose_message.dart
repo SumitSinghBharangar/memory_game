@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class WinMessage extends StatelessWidget {
-  const WinMessage({
-    super.key,
-  });
+class LooseMessage extends StatelessWidget {
+  const LooseMessage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      'You Won! 😎',
+      'You Loose! 🥲',
       style: TextStyle(
         fontSize: 40.sp,
         fontWeight: FontWeight.bold,
-        color: Colors.green,
+        color: Colors.red,
       ),
     );
   }

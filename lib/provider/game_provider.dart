@@ -4,21 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:memory_game/common/components/card_item.dart';
 
 class GameProvider extends ChangeNotifier {
+  int _trycount = 0;
   int _gridSize = 4;
   List<CardItem?> _cards = [];
   List<int> _flipped = [];
   List<int> _solved = [];
   bool _disabled = true;
   bool _won = false;
+  bool _loose = false;
   bool _showNumberFirstTime = true;
 
   // Getters
+  int get trycount => _trycount;
   int get gridSize => _gridSize;
   List<CardItem?> get cards => _cards;
   List<int> get flipped => _flipped;
   List<int> get solved => _solved;
   bool get disabled => _disabled;
   bool get won => _won;
+  bool get loose => _loose;
   bool get showNumberFirstTime => _showNumberFirstTime;
 
   GameProvider() {
@@ -56,7 +60,9 @@ class GameProvider extends ChangeNotifier {
 
     _flipped = [];
     _solved = [];
+    _trycount = 0;
     _won = false;
+    _loose = false;
     _disabled = true;
     _showNumberFirstTime = true;
     notifyListeners();
@@ -74,6 +80,7 @@ class GameProvider extends ChangeNotifier {
       _solved.addAll([firstId, secondId]);
       _flipped = [];
       _disabled = false;
+      _trycount = 0;
 
       // Check if won - only check active cards (non-null)
       if (_solved.length == _cards.where((card) => card != null).length) {
@@ -81,7 +88,15 @@ class GameProvider extends ChangeNotifier {
       }
     } else {
       Timer(const Duration(seconds: 1), () {
+        _trycount++;
+        if (_trycount > 1) {
+          _loose = true;
+          _flipped = [];
+          _disabled = true;
+          notifyListeners();
+        }
         _flipped = [];
+
         _disabled = false;
         notifyListeners();
       });
@@ -91,7 +106,13 @@ class GameProvider extends ChangeNotifier {
 
   void handleCardTap(int id) {
     // Ignore taps on null cards (empty cells)
-    if (_disabled || _won || _solved.contains(id) || _cards[id] == null) return;
+    if (_disabled ||
+        _won ||
+        _solved.contains(id) ||
+        _cards[id] == null ||
+        _loose) {
+      return;
+    }
 
     if (_flipped.isEmpty) {
       _flipped = [id];

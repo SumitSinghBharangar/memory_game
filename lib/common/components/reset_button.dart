@@ -26,7 +26,7 @@ class ResetButton extends StatelessWidget {
         ),
       ),
       child: Text(
-        gameProvider.won ? 'Play Again' : 'Reset',
+        gameProvider.won || gameProvider.loose ? 'Play Again' : 'Reset',
         style: TextStyle(
           fontSize: 18.sp,
           color: Colors.white,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:memory_game/provider/game_provider.dart';
 
 class GameCard extends StatelessWidget {
@@ -27,6 +26,8 @@ class GameCard extends StatelessWidget {
     final isFlipped = gameProvider.flipped.contains(index) ||
         gameProvider.solved.contains(index);
     final isSolved = gameProvider.solved.contains(index);
+
+    final isLoose = gameProvider.solved.contains(index);
 
     return GestureDetector(
       onTap: () => gameProvider.handleCardTap(index),

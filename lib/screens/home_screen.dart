@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memory_game/common/components/game_grid.dart';
 import 'package:memory_game/common/components/grid_size_control.dart';
+import 'package:memory_game/common/components/loose_message.dart';
 import 'package:memory_game/common/components/reset_button.dart';
 import 'package:memory_game/common/components/win_message.dart';
 import 'package:memory_game/provider/game_provider.dart';
@@ -55,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // Win Message
                     if (gameProvider.won) const WinMessage(),
+                    if (gameProvider.loose) const LooseMessage(),
 
                     // Reset Button
                     SizedBox(height: 16.h),
